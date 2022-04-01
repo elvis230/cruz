@@ -13,7 +13,7 @@ class Categorias
         $sql='';
         $smt = $db->prepare($sql);
         $smt->bindParam(':id', $id);
-        $smt->bindParam(':nombre', $nombre;
+        $smt->bindParam(':nombre', $nombre);
         $smt->execute();
 
     }
@@ -24,7 +24,7 @@ class Categorias
         $sql='';
         $smt = $db->prepare($sql);
         $smt->bindParam(':id', $id);
-        $smt->bindParam(':nombre', $nombre;
+        $smt->bindParam(':nombre', $nombre);
         $smt->execute();
        
 
@@ -54,19 +54,43 @@ class Categorias
         $smt->execute();
         $fila = $smt->rowCount();
         $smt->setFetchMode(PDO::FETCH_ASSOC);
-        $arreglo = $smt->fetch();
+        //$arreglo = $smt->fetch();
+        $xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><respuesta>';
+        while ($d = $smt->fetch()) {
+            $xml .= '<datos>';
+            $xml .= '<id>' . $d['id'] . '</id>';
+            $xml .= '<nombre>' . $d['nombre'] . '</nombre>';
+            $xml .= '</datos>';
+        }
+
+        $xml .= '</respuesta>';
+        header('Content-Type: text/xml');
+        $xml = utf8_encode($xml);
+        return $xml;
       }else{
         $sql='SELECT
         categoria.id, 
         categoria.nombre
         FROM
-        categoria';
+        categoria WHERE categoria.id=';
         $smt = $db->prepare($sql);
         $smt->bindParam(':buscar', $buscar);
         $smt->execute();
         $fila = $smt->rowCount();
         $smt->setFetchMode(PDO::FETCH_ASSOC);
-        $arreglo = $smt->fetch();
+        //$arreglo = $smt->fetch();
+        $xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?><respuesta>';
+        while ($d = $smt->fetch()) {
+            $xml .= '<datos>';
+            $xml .= '<id>' . $d['id'] . '</id>';
+            $xml .= '<nombre>' . $d['nombre'] . '</nombre>';
+            $xml .= '</datos>';
+        }
+
+        $xml .= '</respuesta>';
+        header('Content-Type: text/xml');
+        $xml = utf8_encode($xml);
+        return $xml;
           
       }
 

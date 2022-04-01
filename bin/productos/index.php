@@ -67,7 +67,7 @@
     <div class="rp">
         <fieldset> 
             <legend> Modulo de Productos </legend> 
-            <p> <label for="Producto">Producto:</label> <select class="cat" ><option></option>  </select> </p> 
+            <p> <label for="Producto">Producto:</label> <select class="cat" >  </select> </p> 
             <p> <label for="Clave">Clave:</label> <input type="text" class="clave" /> </p>          
             <P> <label for="Descripcion">Descripcion:</label><textarea class="descrip"> </textarea> </P>
         </fieldset>
@@ -97,13 +97,27 @@
         type: 'POST',
         dataType:'html',
         contentType: 'application/x-www-form-urlencoded',
-        url: '',
-        beforeSend: Inicia_solicitud,
-        success: Fin,
+        url: 'bin/categorias/buscar.php',
+        beforeSend: function(){console.log("iniciando")},
+        success: Mostrar,
         timeout: 4000,
-        error: Error
+        error: function(){console.log("Error en el Servidor")}
     })
     return false;
     }
 
+function Mostrar(xml){
+   
+    var  contenido ='<option value="0" selected>Selecciona Un Producto  </option>';
+      alert(xml);
+    $(xml).find('datos').each(function()
+    {     
+     	contenido += '<option ';
+     	contenido += ' value=" '+$(this).find('id').text()+'" >';
+     	contenido += $(this).find('nombre').text();
+     	contenido += '</option>';
+     })
+        $(".cat").html(contenido);
+        alert(contenido);
+}
 </script>
