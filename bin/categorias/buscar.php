@@ -5,6 +5,6 @@ include('class.php');
 $bascar = '';
 
 $objeto = new Categorias;
-$objeto->Buscar($bascar);
+echo $objeto->Buscar($bascar);
 
 ?>
